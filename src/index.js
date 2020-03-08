@@ -1,12 +1,10 @@
-import React from 'react';
+import React from 'react';//只要你使用了JSX语法就要引入
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import TodoList from './TodoList';
+import * as serviceWorker from './serviceWorker'; //PWA Progressive Web App 让React成为App
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+    <TodoList />, document.getElementById('root')
+);//将组件挂载到某个element下
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
