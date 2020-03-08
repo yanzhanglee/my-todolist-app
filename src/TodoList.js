@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import './style.css'
 
 class TodoList extends Component{
 
@@ -14,7 +15,10 @@ class TodoList extends Component{
     return(
         <Fragment>
           <div>
+            <label htmlFor="insertArea">Do:</label>
             <input
+                id = "insertArea"
+                className = 'input'
                 value = {this.state.inputValue}
                 onChange = {this.handleInputChange.bind(this)}//将函数绑定至render()中的this
             />
@@ -25,12 +29,16 @@ class TodoList extends Component{
           <ul>
             {
               this.state.list.map((item,index) =>{//map()循环函数
-                return <li
-                    key={index}>{item}
-                    <button
-                    onClick = {this.deleteItem.bind(this, index)}
-                >Del</button>
-                </li>
+                return(
+                    <li
+                        key={index}
+                        //dangerouslySetInnerHTML = {{__html: item}}
+                    >{item}
+                      <button
+                          onClick = {this.deleteItem.bind(this, index)}
+                      > DEL </button>
+                    </li>
+                )
               })
             }
           </ul>
