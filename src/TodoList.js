@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from 'react';
+import TodoItem from './TodoItem';
+
 import './style.css'
 
 class TodoList extends Component{
@@ -8,7 +10,10 @@ class TodoList extends Component{
     this.state = {
       inputValue: 'Enter your To-do',
       list: ['学习React 60分钟','学习Rhino 60分钟']
-    }
+    };
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleBtnClick = this.handleBtnClick.bind(this);
+    this.deleteItem = this.deleteItem.bind(this);
   }
 
   render() {
@@ -20,54 +25,55 @@ class TodoList extends Component{
                 id = "insertArea"
                 className = 'input'
                 value = {this.state.inputValue}
-                onChange = {this.handleInputChange.bind(this)}//将函数绑定至render()中的this
+                onChange = {this.handleInputChange}//将函数绑定至render()中的this,放在上面了
             />
             <button
-                onClick = {this.handleBtnClick.bind(this)}
+                onClick = {this.handleBtnClick}
             >Add</button>
           </div>
           <ul>
-            {
-              this.state.list.map((item,index) =>{//map()循环函数
-                return(
-                    <li
-                        key={index}
-                        //dangerouslySetInnerHTML = {{__html: item}}
-                    >{item}
-                      <button
-                          onClick = {this.deleteItem.bind(this, index)}
-                      > DEL </button>
-                    </li>
-                )
-              })
-            }
+            {this.getTodoItem()}
           </ul>
         </Fragment>
     )
   }
 
+  getTodoItem(){
+    return this.state.list.map((item,index) =>{//map()循环函数
+      return(
+          <TodoItem
+              key = {index}
+              content = {item}
+              index = {index}
+              deleteItem = {this.deleteItem}//父组件传递到子组件的函数必须要绑定this
+          />
+          )
+    })
+  }
+
   handleInputChange(e){
     //console.log(e.target.value);
-    this.setState({ //用这个方法来改变this.state中变量的值
-      inputValue: e.target.value
-    })
+    const {value} = e.target.value;
+    this.setState(()=>({
+          inputValue: value//用这个方法来改变this.state中变量的值
+    }));
   }
 
   handleBtnClick(){
     if(this.state.inputValue !== ''){
-      this.setState({
-        list: [this.state.inputValue, ...this.state.list],
+      this.setState((prevState) => ({
+        list: [prevState.inputValue, ...prevState.list],
         inputValue: ''
-      })
+      }));
     }
   }
 
   deleteItem(index){
     const list = [...this.state.list];
     list.splice(index,1);//splice()删除数组中的某一项
-    this.setState({
+    this.setState(()=>({
       list: list
-    })
+    }))
   }
 
 }
