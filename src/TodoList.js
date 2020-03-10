@@ -52,19 +52,22 @@ class TodoList extends Component{
   }
 
   handleInputChange(e){
-    //console.log(e.target.value);
-    const {value} = e.target.value;
-    this.setState(()=>({
-          inputValue: value//用这个方法来改变this.state中变量的值
+    //console.log("e.target.value:"+e.target.value);
+    const values = e.target.value; //!!!!这里不能用大括号
+    this.setState(() => ({
+        inputValue: values//用这个方法来改变this.state中变量的值
     }));
+    //console.log("this.state.inputValue:"+this.state.inputValue);
   }
 
-  handleBtnClick(){
-    if(this.state.inputValue !== ''){
-      this.setState((prevState) => ({
-        list: [prevState.inputValue, ...prevState.list],
+  handleBtnClick() {
+    if (this.state.inputValue !== '') {
+      this.setState(() => ({
+        list: [this.state.inputValue, ...this.state.list],
         inputValue: ''
       }));
+      //console.log(this.state.list);
+      //}
     }
   }
 
