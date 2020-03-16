@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import TodoItem from './TodoItem';
-import Test from './Test';
+import axios from 'axios';
 
 import './style.css'
 
@@ -27,6 +27,7 @@ class TodoList extends Component{
                 className = 'input'
                 value = {this.state.inputValue}
                 onChange = {this.handleInputChange}//将函数绑定至render()中的this,放在上面了
+                //ref = {(input)=>{this.input = input}}
             />
             <button
                 onClick = {this.handleBtnClick}
@@ -35,18 +36,22 @@ class TodoList extends Component{
           <ul>
             {this.getTodoItem()}
           </ul>
-          <Test
-            content = {this.state.inputValue}
-          />
         </Fragment>
     )
+  }
+
+  componentDidMount() {
+    //ajax请求一般写在该函数中
+    axios.get('/api/todolist')
+        .then(()=>{alert('get!')})
+        .catch(()=>{alert('error!')});
   }
 
   getTodoItem(){
     return this.state.list.map((item,index) =>{//map()循环函数
       return(
           <TodoItem
-              key = {index}
+              key = {item}
               content = {item}
               index = {index}
               deleteItem = {this.deleteItem}//父组件传递到子组件的函数必须要绑定this

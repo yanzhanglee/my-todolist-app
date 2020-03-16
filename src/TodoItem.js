@@ -10,6 +10,13 @@ class TodoItem extends Component{
 
   }
 
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    if (nextProps.content !== this.props.content)
+      return true;
+    else
+      return false;
+  }
+
   render() {
     const { content} = this.props;
     //console.log("content:"+content);
@@ -28,7 +35,7 @@ class TodoItem extends Component{
 }
 
 TodoItem.propTyps = { //校验传入的数据格式
-  content: PropTypes.arrayOf(PropTypes.number, PropTypes.string),
+  content: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   deleteItem: PropTypes.func,
   index: PropTypes.number,
 };
